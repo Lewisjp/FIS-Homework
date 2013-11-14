@@ -18,7 +18,7 @@ end
 
 def input
 
-	answer = rand(10) + 1
+	answer = rand(99) + 1
 
 	puts "\n\nGuess a number between 1 and 100 correctly."
 	guess = gets.chomp.to_i
