@@ -32,8 +32,19 @@ end
 def prompt(guess, answer, tried_again)
 
 	if guess == answer
+
+		# if a user wins give them the option to play the game again
+
 		puts "Congratulations!  You chose wisely" 
-		return true
+		puts "Would you like to play again? Yes or No?"
+			tried_again = false
+			answer_2 = gets.chomp.downcase
+			case answer_2
+				when "yes" then start_game(tried_again)
+				when "y" then start_game(tried_again)
+				else
+					return true
+			end
 	else
 
 		# tell the user if their guess  are 'higher' or 'lower' than the correct number
@@ -84,10 +95,14 @@ def input(answer, tried_again)
 
 end
 
+
+def start_game(tried_again)
+	answer = rand(99) + 1
+	puts "While camping in the velvet darkness of the blackest night, you suddenly see a guiding light.  After walking along the river you begin to hear music, and once over the hill see the carnival.  At the entrance stands an older man in a cowboy hat.\nHe looks up from the ground to meet your eyes...\nAdmission is free if you..."
+
+	input(answer, tried_again)
+end
+
 tried_again = false 
-answer = rand(99) + 1
-puts "While camping in the velvet darkness of the blackest night, you suddenly see a guiding light.  After walking along the river you begin to hear music, and once over the hill see the carnival.  At the entrance stands an older man in a cowboy hat.\nHe looks up from the ground to meet your eyes...\nAdmission is free if you..."
 
-input(answer, tried_again)
-
-
+start_game(tried_again)
