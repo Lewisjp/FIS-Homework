@@ -4,26 +4,16 @@ def answer_temp(guess, answer)
 	temp = (guess - answer).abs	
 	if temp < 10
 		puts "You're so close you're on fire."
-	else
-		if temp < 20
-			puts "You're hot."
-		else
-			if temp < 30 
-				puts "You're getting warmer."
-			else
-				if temp < 50
-					puts "It feels too warm to wear a jacker, but too cold to wear a t-shirt."
-				else
-					if temp < 80
-						puts "Is it just me, or are you cold?"
-					else
-						if temp < 100
-							puts "You must be freezing."
-						end
-					end
-				end
-			end
-		end
+	elsif temp < 20
+		puts "You're hot."
+	elsif temp < 30 
+		puts "You're getting warmer."
+	elsif temp < 50
+		puts "It feels too warm to wear a jacker, but too cold to wear a t-shirt."
+	elsif temp < 80
+		puts "Is it just me, or are you cold?"
+	elsif temp < 100
+		puts "You must be freezing."
 	end
 end 
 
