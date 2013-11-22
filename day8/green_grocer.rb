@@ -1,24 +1,8 @@
-
 =begin
 ##Objectives: 
 Create a checkout method to calculate the total cost of a cart of items and apply discounts and coupons as necessary.
 
-Dr. Steve Bruhle, your green grocer, isn't ready, but you are!
-
-##Skills: 
-any?, all?, none?, each, map/collect
-
-##Instructions:
-Code generates a random cart of items and a random set of coupons. Implement a method checkout to calculate total cost of a cart of items and apply discounts and coupons as necessary.
-
-  For example if your cart was [  {"AVOCADO" => {:price => 3.00, :clearance => true}}, {"AVOCADO" => {:price => 3.00, :clearance => true}}]
-  it would become {"AVOCADO" => {:price => 3.00, :clearance => true}, :count => 2}
-##create a checkout method that calculates the total cost of the cart
-##when checking out, check the coupons and apply the discount if the proper number of items is present
-##if any of the items are on clearance add a 20% discount
 ##if the customer has 2 of the same coupon, triple the discount
-
-##if none of the items purchased have a unit price greater than 5$ give the customer a 10$ discount off the whole cart  ????????????
 
 ```
 ##Reward
@@ -74,7 +58,8 @@ def without_coups(cart)
 
 
 			if  traits[:clearance] == true 
-				traits[:price] =  (traits[:price] * 0.20) 
+				##if any of the items are on clearance add a 20% discount
+				traits[:price] =  (traits[:price] * 0.80).round(2) 
 				total += traits[:price]
 			elsif traits[:clearance] == false 
 				total += traits[:price]
@@ -84,16 +69,16 @@ def without_coups(cart)
 
 		end
 
-	#	printf('%.2f',total) # this method only changes the output 
-	#	puts total.round(2)
 
 	total.round(2)
-end
+end 
 
+#create a checkout method that calculates the total cost of the cart
+def checkout(cart, total_w_c)
 
-def with_coups(cart, cost)
-
+	unit_price_greater_five = false
 	coups = generateCoups
+	savings = 0
 
 #	puts coups.inspect # => [{:item=>"AVOCADO", :num=>2, :cost=>5.0}]
 
@@ -106,27 +91,30 @@ def with_coups(cart, cost)
 
 
 			if  coups[0][:item] == food
-				if traits[:count] >= traits[:count]
-					puts "hi"
+				##when checking out, check the coupons and apply the discount if the proper number of items is present
+				if traits[:count] >= coups[0][:num]
+					savings += ((traits[:count]/coups[0][:num]) * (traits[:price]-coups[0][:cost]))
 				end
 			end		
-=begin   total - ((count/num) * (price * num - cost))
+			
+			##if none of the items purchased have a unit price greater than 5$ give the customer a 10$ discount off the whole cart
+			if traits[:count] * traits[:price] > 5
+				unit_price_greater_five = true
+			end
 
-COUPS = [	{:item=>"AVOCADO", :num=>2, :cost=>5.00},
-			{:item=>"BEER", :num=>2, :cost=>20.00},
-			{:item=>"CHEESE", :num=>3, :cost=>15.00}]
 
-
-=end
-#			
 		end
 	end
-
-
-	#	printf('%.2f',total) # this method only changes the output 
-	#	puts total.round(2)
-
-	cost.round(2)
+	if unit_price_greater_five == false
+		total_w_c -= 10
+		puts "None of the items purchased have a unit price greater than $5"
+		puts "You got a $10 discount."
+	end	
+#	puts cart.inspect
+	puts "Your original total was $#{total_w_c}." if savings != 0 
+	total_w_c += savings 
+	puts "Your coupon savings for today is $#{savings.abs}" if savings != 0
+	puts total_w_c.round(2)
 end
 
 
@@ -165,6 +153,7 @@ end
 
 
 
+
 current = cart_total(generateCart)
 cost  = without_coups(current)
-cost = with_coups(current, cost)
+final_cost = checkout(current, cost)
